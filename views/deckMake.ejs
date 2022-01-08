@@ -6,6 +6,20 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+      <% if(mode === 'gotten'){ %>
+    <form id="deck" name="deck" method="post">
+        デッキ名:<input id="deckName" name="deckName" type="text">
+        <button id="save" type="submit">登録</button>
+        ※採用カード登録機能は準備中です
+    </form>
+      <%}else if(mode === 'posted'){%>
+        デッキ「<%=deckName%>」が登録されました
+      <%}%>
+     <button class="link" onclick="location.href = '/'">デッキ一覧に戻る</button>
+      
+
+
+
+
   </body>
 </html>

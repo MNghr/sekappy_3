@@ -3,9 +3,69 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+        matchType=document.getElementById("matchType")
+        results=document.querySelectorAll('.result')
+        
+        results[1].disabled = (matchType.selectedIndex === 0)
+        results[2].disabled = (results[0].selectedIndex === results[1].selectedIndex || matchType.selectedIndex===0)
+        
+        results.forEach((elem)=>{
+          console.log(results[0])
+          elem.addEventListener('change',(event)=>{
+            results[2].disabled = (results[0].selectedIndex === results[1].selectedIndex)
+          })
+        })
+        matchType.addEventListener('change',(event)=>{
+          results[1].disabled = (matchType.selectedIndex === 0)
+          results[2].disabled = (results[0].selectedIndex === results[1].selectedIndex || matchType.selectedIndex===0)
+        })
+      });
+
+      
+    </script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1><%= deckName %></h1>
+    デッキ名:<input id="deckName" name="deckName" type="text" value=<%=deckName %> >  
+    <button id="save" type="submit">変更</button>
+    
+    ※デッキレシピは準備中です※
+
+    <h1>このデッキの戦績</h1>
+    LマッチM勝N負
+    マッチ勝率:QQ%
+    メイン戦勝率:XX%
+    2ゲーム目以降の勝率:YY%
+
+
+
+    <%= battleHistory %>
+
+    <details class="addBattleHistory">
+      <h1><summary list-style:none;><%=deckName %>の戦績を追加する</summary></h1>
+      <form id="registerBattleHistory" name="registerBattleHistory">
+          対戦相手のデッキタイプ:<input id="opponentDeckName" name="opponentDeckName" type="text">
+          対戦形式:<select id="matchType" name="matchType">
+            <option value="1">BO1(一発勝負)</option>
+            <option value="3">BO3(2本先取)</option>
+          </select>
+            <select class="result" id="result_1" name="result">
+              <option value="lose">負け</option>
+              <option value="win">勝ち</option>
+            </select>
+            <select class="result" id="result_2" name="result">
+              <option value="lose">負け</option>
+              <option value="win">勝ち</option>
+            </select>
+            <select class="result" id="result_3" name="result">
+              <option value="lose">負け</option>
+              <option value="win">勝ち</option>
+            </select>
+
+          <button id="battleHistorySubmit" type="submit" >追加</button>
+      </form> 
+    </details>
   </body>
 </html>

@@ -3,10 +3,12 @@ let router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  res.render('index', { 
-    title: 'あなたのデッキ',
-    decks: [],
-  });
+  ( async ()=>{
+    res.render('index', { 
+      title: 'セカチャレ課題3',
+      decks: [],
+    });
+  })().catch(next)
 });
 
 module.exports = router;

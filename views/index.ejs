@@ -5,7 +5,12 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>あなたのデッキ</h1>
+    <div>
+    <% if(!decks.length){ %>
+    ※あなたのデッキはまだありません．新規作成ボタンから新しく作ってください．
+      <% }%>
+    </div>
+    <button onclick="location.href='/deckMake'">新規作成</button>
   </body>
 </html>
