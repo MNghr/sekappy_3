@@ -19,6 +19,7 @@ let manipulateDeck = {
             await fileio.writeDeckFile(deck.deckID,deck);
         }catch(err){
             valuesOnMemory.nextID--;
+            throw err;
         }
     },
 

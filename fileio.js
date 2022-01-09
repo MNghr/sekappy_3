@@ -5,13 +5,10 @@ const writeFile = async (dir,content)=>{
     try{
         await fs.writeFile(dir,content);
     }catch(err){
-        console.log("ファイルが書き込めませんでした")
+        console.log("ファイルが書き込めませんでした");
         console.log(err);
-        return err;
+        throw err;
     }
-    console.log("ファイルが書き込まれました")
-    return true;
-
 };
 
 const readFile = async (dir) => {
@@ -21,9 +18,8 @@ const readFile = async (dir) => {
     }catch(err){
         console.log("ファイルが読み込めませんでした");
         console.log(err);
-        return err;
+        throw err;
     }
-    return content;
 };
 
 const writeDeckFile = async (deckID,deck) =>{

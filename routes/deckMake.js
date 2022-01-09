@@ -18,8 +18,15 @@ router.post('/',(req, res, next) =>{
         if(req.body.deckName === ''){
             req.body.deckName = '名無し'
         }
-
-        await manipulateDeck.createNewDeck(req.body.deckName);
+        try{
+            await manipulateDeck.createNewDeck(req.body.deckName);
+        }catch (err){
+            res.render('deckMake', { 
+                title: 'デッキ登録エラー' ,
+                mode: 'error',
+                deckName: req.body.deckName
+            });
+        }
 
         console.log("deckMake.post")
         res.render('deckMake', { 

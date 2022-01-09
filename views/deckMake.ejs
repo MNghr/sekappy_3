@@ -14,7 +14,9 @@
     </form>
       <%}else if(mode === 'posted'){%>
         デッキ「<%=deckName%>」が登録されました
-      <%}%>
+      <%}else if(mode === 'error'){%>
+        デッキ登録に失敗しました．何度実行しても失敗する場合，管理人に問い合わせてください．
+     <%}%>
      <button class="link" onclick="location.href = '/'">デッキ一覧に戻る</button>
       
 
