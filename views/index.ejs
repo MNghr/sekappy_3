@@ -6,10 +6,16 @@
   </head>
   <body>
     <h1>あなたのデッキ</h1>
-    <div>
+    <div class="listOfDecksArea">
     <% if(!decks.length){ %>
     ※あなたのデッキはまだありません．新規作成ボタンから新しく作ってください．
-      <% }%>
+      <% }else{
+        decks.forEach((deck)=>{%>
+          <div class="deck">
+          <a href="./deckDetail?deckID=<%=deck.deckID%>"><%=deck.deckName%></a> 
+          </div>
+        <% })
+      }%>
     </div>
     <button onclick="location.href='/deckMake'">新規作成</button>
   </body>

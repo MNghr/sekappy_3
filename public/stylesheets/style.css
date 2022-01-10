@@ -6,3 +6,26 @@ body {
 a {
   color: #00B7FF;
 }
+
+.matchResult {
+  border-top:1px solid #000000;
+  border-bottom:1px solid #000000;
+  border-right:1px solid #000000;
+  border-left:1px solid #000000;
+}
+
+.lose{
+
+}
+
+.win{
+
+}
+
+.errorMessage{
+
+}
+
+.completeMessage{
+  
+}
