@@ -20,10 +20,14 @@ router.post('/',(req, res, next) =>{
         if(req.body.deckName !== undefined){
             try{
                 await manipulateDeck.createNewDeck(req.body.deckName);
+                const decks = await manipulateDeck.getListOfDecks();
                 console.log('deckMake.post')
-                res.render('deckMake', { 
-                    title: 'デッキ登録完了' ,
+                res.render('index', { 
+                    title: 'デッキ一覧' ,
+                    status: 'complete',
+                    message: 'デッキ「'+req.body.deckName+'」を登録しました！',
                     mode: 'posted',
+                    decks: decks,
                     deckName: req.body.deckName
                 });
             }catch (err){

@@ -12,20 +12,167 @@ a {
   border-bottom:1px solid #000000;
   border-right:1px solid #000000;
   border-left:1px solid #000000;
+  display:table;
 }
 
 .lose{
-
+  color:#F0FFFF;
+  background-color: #16244E;
+  display:inline-block;
+  _display: inline;
 }
 
 .win{
+  color: #16244E;
+  background-color: #F0FFFF;
+  display:inline-block;
+  _display: inline;
+}
 
+.empty{
+  display:inline-block;
+  _display: inline;
 }
 
 .errorMessage{
 
 }
 
-.completeMessage{
-  
+.matchResult{
+    display:flex;
+    flex-wrap: nowrap;
+    padding:10px;
+    list-style:none;
+    max-width: 500px;
 }
+
+.addSomethingButton {
+  display: inline-block;
+  padding: 0.3em 1em;
+  text-decoration: none;
+  color: #67c5ff;
+  border: solid 2px #67c5ff;
+  border-radius: 3px;
+  transition: .4s;
+}
+
+.addSomethingButton:hover {
+  background: #67c5ff;
+  color: white;
+}
+
+.deleteSomethingButton{
+  display: inline-block;
+  text-decoration: none;
+  color: #ff6774;
+  border: solid 2px #ff6774;
+  border-radius: 3px;
+  transition: .4s;
+}
+
+.deleteSomethingButton:hover{
+  background: #ff6674;
+  color:white;
+}
+
+.changeSomethingButton{
+  display: inline-block;
+  padding: 0.3em 1em;
+  text-decoration: none;
+  color: #51c56a;
+  border: solid 2px #51c56a;
+  border-radius: 3px;
+  transition: .4s;
+}
+
+.changeSomethingButton:hover{
+  background: #51c56a;
+  color:white;
+}
+
+.moveSomewhereButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 1px solid navy;
+  box-sizing: border-box;
+  width: 50%;
+  max-width: 200px;
+  height: 40px;
+  padding: 0 25px;
+  color: navy;
+  font-size: 16px;
+  text-align: left;
+  text-decoration: none;
+  position: relative;
+  transition-duration: 0.2s;
+}
+.moveSomewhereButton:hover {
+  background: navy;
+  border: 1px solid #05639a;
+  color: #fff;
+}
+
+.moveSomewhereButton span {
+    position: absolute;
+    bottom: 20px;
+    left: 12px;
+    display: inline-block;
+}
+.moveSomewhereButton span:before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -8px;
+}
+.moveSomewhereButton span:after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border: 0;
+    border-top: 2px solid navy;
+    border-right: 2px solid navy;
+    transform: rotate(225deg);
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    margin-top: -3px;
+}
+
+.deck {
+  border-top:1px solid #000000;
+  border-bottom:1px solid #000000;
+  border-right:1px solid #000000;
+  border-left:1px solid #000000;
+  display: flex;
+  padding: 15px;
+}
+
+.deckName{
+  display:inline-block;
+  overflow: hidden;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.playOrDraw{
+  display: inline-block;
+}
+
+
+.completedMessage{
+  background-image: linear-gradient(#a8eeab,#97dd9a);
+  border-color: #00AE95;
+  display:table;
+  padding: 10px;
+}
+

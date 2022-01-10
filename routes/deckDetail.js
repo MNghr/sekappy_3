@@ -17,6 +17,7 @@ router.get('/', (req, res, next) => {
           title: title,
           mode: 'showDeckDetail',
           status: 'complete',
+          message: '',
           deck:deck
         });
       }catch{
@@ -24,7 +25,7 @@ router.get('/', (req, res, next) => {
           title: title,
           message: 'エラー:デッキ読み込みに失敗しました',
           status: 'error',
-          mode: 'error',
+          mode: 'error'
         });
       }
     }

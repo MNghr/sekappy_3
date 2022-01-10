@@ -10,7 +10,8 @@ const templates = require('./templates.js');
 //デッキを新規作成する
 const createNewDeck = async (deckName)=>{
     let deck=JSON.parse(JSON.stringify(templates.deck));
-    deck = changeDeckName(deck,deckName);
+    deck.deckID = valuesOnVolatileMemory.nextID++;
+    deck = await changeDeckName(deck,deckName);
     console.log(deck);
     try{
         await fileio.writeDeckFile(deck.deckID,deck);

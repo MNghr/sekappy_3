@@ -14,7 +14,7 @@
         results.forEach((elem)=>{
           console.log(results[0])
           elem.addEventListener('change',(event)=>{
-            results[2].disabled = (results[0].selectedIndex === results[1].selectedIndex)
+            results[2].disabled = (results[0].selectedIndex === results[1].selectedIndex　|| matchType.selectedIndex === 0)
           })
         })
         matchType.addEventListener('change',(event)=>{
@@ -30,21 +30,28 @@
     
     
     <% if(status === 'error') {%>
-      <h1><%=title%></h1>
+      <button onclick="location.href = '/'" class="moveSomewhereButton">デッキ一覧に戻る<span></span></button>
+      <h1><%=message%></h1>
     <% }else{ %> 
-    <h1><%= deck.deckName %></h1>
-    <form id="changeDeckName" name="changeDeckName" method="POST">
-    デッキ名:<input id="deckName" name="deckName" type="text" value="<%=deck.deckName %>" >  
-    <input type="hidden" name="deckID" value="<%=deck.deckID%>">
-    <button id="save" type="submit">変更</button>
-    </form>
+      <% if(message !== ''){ %>
+        <div class="completedMessage">
+          <%=message%>
+        </div>
+      <% } %>
+      <button onclick="location.href = '/'" class="moveSomewhereButton">デッキ一覧に戻る<span></span></button>
+      <h1><%= deck.deckName %></h1>
+      <form id="changeDeckName" name="changeDeckName" method="POST">
+        デッキ名:<input id="deckName" name="deckName" type="text" value="<%=deck.deckName %>" >  
+        <input type="hidden" name="deckID" value="<%=deck.deckID%>">
+        <button id="save" type="submit" class="changeSomethingButton">変更</button>
+      </form>
     
-    ※デッキレシピ機能は準備中です※
+      ※デッキレシピ機能は準備中です※
 
-    <h1>このデッキの戦績</h1>
-    <% if(deck.battleHistory.length !== 0){ %>
-      <%const matchWinNumber = (()=>{
-        const matchWin = deck.battleHistory.filter((matchResult)=>{
+      <h1>このデッキの戦績</h1>
+      <% if(deck.battleHistory.length !== 0){ %>
+        <%const matchWinNumber = (()=>{
+          const matchWin = deck.battleHistory.filter((matchResult)=>{
             return matchResult.resultsOfGames.filter((gameResult)=> gameResult === '1').length > matchResult.resultsOfGames.filter((gameResult)=> gameResult === '0').length
           })
           return matchWin.length;
@@ -55,74 +62,112 @@
             })
             return matchLose.length;
         })(); 
-      %>
+        %>
       
-      <%const mainWinNumber = deck.battleHistory.filter((matchResult)=>matchResult.resultsOfGames[0] === '1').length%>
+        <%const mainWinNumber = deck.battleHistory.filter((matchResult)=>matchResult.resultsOfGames[0] === '1').length%>
 
-      <%const matchWinPercentage= matchWinNumber / deck.battleHistory.length*100 %>
-      <%const mainWinPercentage = mainWinNumber / deck.battleHistory.length*100 %>
-      <%const sideWinNumber = (()=>{
-        let result = 0;
-        deck.battleHistory.forEach((matchResult)=>{
-          if(matchResult.resultsOfGames[1] === '1'){
-            result += 1;
-          }
+        <%const matchWinPercentage= matchWinNumber / deck.battleHistory.length*100 %>
+        <%const mainWinPercentage = mainWinNumber / deck.battleHistory.length*100 %>
+        <%const sideWinNumber = (()=>{
+          let result = 0;
+          deck.battleHistory.forEach((matchResult)=>{
+            if(matchResult.resultsOfGames[1] === '1'){
+              result += 1;
+            }
 
-          if(matchResult.resultsOfGames[2] === '1'){
-            result += 1;
-          }
-        })
-        return result;
-      })();%>
-      <% const sideGameNumber = (()=>{
-        let result = 0;
-        const legalResult = ['0','1','2'];
-        deck.battleHistory.forEach((matchResult)=>{
-          if(legalResult.includes(matchResult.resultsOfGames[1])){
-            result += 1
-          }
+            if(matchResult.resultsOfGames[2] === '1'){
+              result += 1;
+            }
+          })
+          return result;
+        })();%>
+        <% const sideGameNumber = (()=>{
+          let result = 0;
+          const legalResult = ['0','1','2'];
+          deck.battleHistory.forEach((matchResult)=>{
+            if(legalResult.includes(matchResult.resultsOfGames[1])){
+              result += 1
+            }
 
-          if(legalResult.includes(matchResult.resultsOfGames[2])){
-            result += 1
-          }
-        })
-        return result;
+            if(legalResult.includes(matchResult.resultsOfGames[2])){
+              result += 1
+            }
+          })
+          return result;
       
-      })();%>
-
-      <%=deck.battleHistory.length %>マッチ中<%= matchWinNumber%>勝<%= matchLoseNumber%>負<%=deck.battleHistory.length-matchWinNumber-matchLoseNumber%>分
-      マッチ勝率:<%=matchWinPercentage%>％
-      1ゲーム目勝率:<%= mainWinPercentage%>％
-      <% if(sideGameNumber !== 0){%>
-        2ゲーム目以降の勝率:<%= sideWinNumber /sideGameNumber*100%>％
-      <% }%>
-    <%}else{ %>
-      戦歴がないので戦績を算出できません
-    <%}%>
-    <details class="detailBattleHistory">
-    <summary>詳細な戦歴を確認する</summary>
-    <ul class="revealBattleHistory">
-      <% const decodeGameResult = ['負け','勝ち','引き分け'] %>
-      <% const decodePlayOrDraw = ['先','後'] %>
-      
-    <%deck.battleHistory.forEach((matchResult,index)=>{ %>
-      <li class="matchResult">
-        <form action="" method="post">
-          <input type="hidden" name="index" value="<%=index %>">
-          <input type="hidden" name="deckID" value="<%= deck.deckID %>">
-          <input type="hidden" name="mode" value="deleteBattleHistory" >
-          <button type="submit">削除</button>
+        })();%>
+        <ul class="matchSubstatics">
+          <li><%=deck.battleHistory.length %>マッチ中<%= matchWinNumber%>勝<%= matchLoseNumber%>負<%=deck.battleHistory.length-matchWinNumber-matchLoseNumber%>分</li>
+          <li>マッチ勝率:<%=matchWinPercentage.toFixed(2)%>％</li>
+          <li>1ゲーム目勝率:<%= mainWinPercentage.toFixed(2)%>％</li>
+          <% if(sideGameNumber !== 0){%>
+            <li>2ゲーム目以降の勝率:<%= (sideWinNumber /sideGameNumber*100).toFixed(2)%>％</li>
+          <% }%>
+        </ul>
+      <%}else{ %>
+        戦歴がないので戦績を算出できません
+      <%}%>
+      <details class="detailBattleHistory">
+      <summary>詳細な戦歴を確認する</summary>
+      <ul class="revealBattleHistory">
+        <% const decodeGameResult = ['負け','勝ち','引き分け'] %>
         
-        <%= matchResult.opponentDeckName %>，
-        <%=decodePlayOrDraw[matchResult.playOrDraw]%> ， 
-        <% matchResult.resultsOfGames.forEach((gameResult)=>{ %>
-            <%= decodeGameResult[gameResult] %>，
-          <% }) %>
-        </form>
-        </li>
-      <%})%>
-    </ul>
-    </details>
+        <% const decodePlayOrDraw = ['先','後'] %>
+      <li class="matchResult">
+      削除
+      <div class="deckName">デッキ名</div>
+      <div class="playOrDraw">手番</div>
+      <div class="empty">一戦</div>
+      <div class="empty">二戦</div>
+      <div class="empty">三戦</div>
+      <div class="empty">総合</div>
+
+      </li>
+      <%deck.battleHistory.forEach((matchResult,index)=>{ %>
+        <%
+        const code = ['lose','win'];
+        const totalResult = (()=>{
+          if(matchResult.resultsOfGames.filter((gameResult)=> gameResult === '1').length > matchResult.resultsOfGames.filter((gameResult)=> gameResult === '0').length){
+            return '1';            
+          }else if(matchResult.resultsOfGames.filter((gameResult)=> gameResult === '1').length < matchResult.resultsOfGames.filter((gameResult)=> gameResult === '0').length){
+            return '0';
+          }else{
+            return '2';
+          }
+        
+        })() %>
+        <li class="matchResult">
+          <form action="" method="post" style="display: inline-block;">
+            <input type="hidden" name="index" value="<%=index %>">
+            <input type="hidden" name="deckID" value="<%= deck.deckID %>">
+            <input type="hidden" name="mode" value="deleteBattleHistory" >
+            <button class="deleteSomethingButton" type="submit">削除</button>
+          </form>
+          <div class="deckName"><%= matchResult.opponentDeckName %></div>
+          <div class="playOrDraw"><%=decodePlayOrDraw[matchResult.playOrDraw]%> </div>
+          <% matchResult.resultsOfGames.forEach((gameResult)=>{ %>
+              <% const className = (()=>{
+                if(gameResult === null){
+                  return 'empty';
+                }else{
+                  return code[parseInt(gameResult)];
+                }
+              })(); 
+                const winLoseContent = (()=>{
+                  if(gameResult === null){
+                    return 'なし';
+                  }else{
+                    return decodeGameResult[parseInt(gameResult)];
+                  }
+                })(); 
+              %>
+              <div class="<%= className%>"><%= winLoseContent %></div>
+            <% }) %>
+              <div class="<%=code[parseInt(totalResult)] %>"><%=decodeGameResult[parseInt(totalResult)]%></div>
+          </li>
+        <%})%>
+      </ul>
+      </details>
     
       <h1><summary list-style:none;><%=deck.deckName %>の戦績を追加する</summary></h1>
       <form id="registerBattleHistory" name="registerBattleHistory" method="POST">
@@ -149,11 +194,11 @@
             </select>
             <input type="hidden" name="deckID" value="<%=deck.deckID%>">
             <input type="hidden" name="mode" value="addBattleHistory">
-          <button id="battleHistorySubmit" type="submit" >追加</button>
+          <button id="battleHistorySubmit" type="submit" class="addSomethingButton">追加</button>
       </form> 
 
 
     <%}%>
-
+    <button onclick="location.href = '/'" class="moveSomewhereButton">デッキ一覧に戻る<span></span></button>
   </body>
 </html>

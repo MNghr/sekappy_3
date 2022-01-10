@@ -9,7 +9,7 @@
       <% if(mode === 'gotten'){ %>
     <form id="deck" name="deck" method="post">
         デッキ名:<input id="deckName" name="deckName" type="text">
-        <button id="save" type="submit">登録</button>
+        <button id="save" type="submit" class="addSomethingButton">登録</button>
         ※採用カード登録機能は準備中です
     </form>
       <%}else if(mode === 'posted'){%>
@@ -17,7 +17,7 @@
       <%}else if(mode === 'error'){%>
         デッキ登録に失敗しました．何度実行しても失敗する場合，管理人に問い合わせてください．
      <%}%>
-     <button class="link" onclick="location.href = '/'">デッキ一覧に戻る</button>
+     <button onclick="location.href = '/'" class="moveSomewhereButton"><span></span>デッキ一覧に戻る</button>
       
 
 

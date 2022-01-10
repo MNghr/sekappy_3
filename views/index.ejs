@@ -5,18 +5,53 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <% if(message !== '' && status === 'complete'){ %>
+      <div class="completedMessage">
+        <%=message%>
+      </div>
+    <%}%>
     <h1>あなたのデッキ</h1>
     <div class="listOfDecksArea">
+    
     <% if(!decks.length){ %>
     ※あなたのデッキはまだありません．新規作成ボタンから新しく作ってください．
-      <% }else{
-        decks.forEach((deck)=>{%>
+
+      <% }else{%>
+        <div>デッキ名をクリックすることでそのデッキの詳細を確認できます．</div>
+        <button class="addSomethingButton" onclick="location.href='/deckMake'">＋新規作成</button>
+        <div class = "deck">
+          削除
+          <div class="deckName">デッキ名</div>
+          <div class="winRate">勝率</div>
+        </div>
+        <%decks.forEach((deck,index)=>{%>
+          <%
+            const matchWinNumber = (()=>{
+              const matchWin = deck.battleHistory.filter((matchResult)=>{
+                return matchResult.resultsOfGames.filter((gameResult)=> gameResult === '1').length > matchResult.resultsOfGames.filter((gameResult)=> gameResult === '0').length
+              })
+              return matchWin.length;
+            })(); 
+
+            const matchWinPercentage = (()=>{
+              if(deck.battleHistory.length === 0){
+                return "-"
+              }else{
+                return (matchWinNumber/deck.battleHistory.length*100).toFixed(2).toString();
+              }
+            })();
+          %>
           <div class="deck">
-          <a href="./deckDetail?deckID=<%=deck.deckID%>"><%=deck.deckName%></a> 
+            <form action="/" method="post" style="display:inline-block">
+              <input type="hidden" name="deckID" value="<%=deck.deckID%>">
+              <button class="deleteSomethingButton" type="submit">削除</button>
+            </form>
+            <div class="deckName"><a href="./deckDetail?deckID=<%=deck.deckID%>"><%=deck.deckName%></a> </div>
+            <div class="winRate"><%=matchWinPercentage%>％</div>
           </div>
         <% })
       }%>
     </div>
-    <button onclick="location.href='/deckMake'">新規作成</button>
+    <button class="addSomethingButton" onclick="location.href='/deckMake'">＋新規作成</button>
   </body>
 </html>

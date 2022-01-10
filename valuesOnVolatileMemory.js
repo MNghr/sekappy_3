@@ -12,7 +12,7 @@ const lsFiles = fs.readdirSync(config.directoryOfDeckFile,{withFileTypes: true})
 起動後はデッキを新規作成した時にだけnextIDが変化する．
 */
 valuesOnVolatileMemory.nextID = (()=>{
-    let maximum = 0;
+    let maximum = -300000;
     lsFiles.forEach((elem)=>{
         let fileName = elem.name;
         fileName.slice(0,-5);
